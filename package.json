@@ -1,0 +1,23 @@
+{
+  "name": "ever_api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ever re api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mysql"
+  ],
+  "author": "ever re",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.12.0-beta.2"
+  }
+}
