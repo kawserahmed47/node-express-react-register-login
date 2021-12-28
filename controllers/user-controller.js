@@ -1,15 +1,14 @@
-import db from '../models/index.js'
-
+const db = require('../models/index.js');
 // create main Model
 
-export const User = db.users
+ const User = db.users
 
 
 // Main Work
 
 // 1. Create User
 
-export const createUser = async (req, res) =>{
+ const createUser = async (req, res) =>{
 
     let data = {
         first_name: req.body.first_name,
@@ -29,7 +28,7 @@ export const createUser = async (req, res) =>{
 
 // 2. Get All Users
 
-export const getAllUsers = async(req, res) =>{
+ const getAllUsers = async(req, res) =>{
     let users = await User.findAll({})
     res.status(200).send(users);
 }
@@ -37,7 +36,7 @@ export const getAllUsers = async(req, res) =>{
 
 // 3. Get Single User
 
-export const getSingleUser = async(req, res) =>{
+ const getSingleUser = async(req, res) =>{
 
     let id = req.params.id
 
@@ -48,7 +47,7 @@ export const getSingleUser = async(req, res) =>{
 
 // 4. Update User
 
-export const updateUser = async(req, res) =>{
+ const updateUser = async(req, res) =>{
 
     let id = req.params.id
 
@@ -60,7 +59,7 @@ export const updateUser = async(req, res) =>{
 
 // 5. Delete User
 
-export const deleteUser = async(req, res) =>{
+ const deleteUser = async(req, res) =>{
 
     let id = req.params.id
 
@@ -69,7 +68,7 @@ export const deleteUser = async(req, res) =>{
 }
 
 
-export const loginUser = async(req, res) =>{
+ const loginUser = async(req, res) =>{
 
     let email = req.body.email
     let password = req.body.password
@@ -85,3 +84,4 @@ export const loginUser = async(req, res) =>{
 }
 
 
+module.exports = { createUser, getAllUsers, getSingleUser,  updateUser, deleteUser, loginUser  }

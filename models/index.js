@@ -1,6 +1,10 @@
-import { DB, USER, PASSWORD, HOST, dialect as _dialect, pool as _pool } from '../config/db-config.js';
-
-import pkg from 'sequelize';
+const DB = require('../config/db-config.js').DB;
+const USER = require('../config/db-config.js').USER;
+const PASSWORD = require('../config/db-config.js').PASSWORD;
+const HOST = require('../config/db-config.js').HOST;
+const  _dialect = require('../config/db-config.js').dialect;
+const  _pool = require('../config/db-config.js').pool;
+const pkg = require('sequelize');
 const { Sequelize, DataTypes } = pkg;
 
 
@@ -37,8 +41,7 @@ const db = {};
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-import user from './user-model.js'
-
+const user = require('./user-model.js');
 
 db.users = user(sequelize, DataTypes)
 
@@ -47,8 +50,8 @@ db.sequelize.sync({force:false}).then(()=>{
 } );
 
 
-export default db;
-
+// export default db;
+module.exports = db;
 
 
 

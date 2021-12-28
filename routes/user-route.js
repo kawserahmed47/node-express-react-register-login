@@ -1,8 +1,10 @@
-import {createUser, getAllUsers, getSingleUser, updateUser, deleteUser, loginUser  } from '../controllers/user-controller.js';
-
-// const route = require('express').Router()
-
-import route from 'express';
+const createUser = require('../controllers/user-controller.js').createUser;
+const getAllUsers = require('../controllers/user-controller.js').getAllUsers;
+const getSingleUser = require('../controllers/user-controller.js').getSingleUser;
+const updateUser = require('../controllers/user-controller.js').updateUser;
+const deleteUser = require('../controllers/user-controller.js').deleteUser;
+const loginUser = require('../controllers/user-controller.js').loginUser;
+const route = require('express');
 
 const routes = route.Router();
 
@@ -14,6 +16,6 @@ routes.delete('/delete-user:id',deleteUser)
 
 routes.post('/login-check',loginUser)
 
-export default routes;
+// export default routes;
 
-// module.exports = route;
+module.exports = routes;

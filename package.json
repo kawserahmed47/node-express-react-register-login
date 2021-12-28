@@ -1,7 +1,7 @@
 {
   "name": "ever_api",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "description": "ever re api",
   "main": "server.js",
   "scripts": {

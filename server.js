@@ -1,6 +1,7 @@
-import express, { json, urlencoded } from 'express';
-import cors from 'cors';
-
+const express = require('express');
+const json = require('express').json;
+const urlencoded = require('express').urlencoded;
+const cors = require('cors');
 
 
 
@@ -21,7 +22,7 @@ app.use(urlencoded({extended:true}))
 
 // routes
 
-import routes from './routes/user-route.js'
+const routes = require('./routes/user-route.js');
 app.use('/api/users',routes);
 
 
