@@ -4,8 +4,13 @@ const getSingleUser = require('../controllers/user-controller.js').getSingleUser
 const updateUser = require('../controllers/user-controller.js').updateUser;
 const deleteUser = require('../controllers/user-controller.js').deleteUser;
 const loginUser = require('../controllers/user-controller.js').loginUser;
-const route = require('express');
+const sendOTP = require('../controllers/user-controller').sendOTP;
+const checkOTP = require('../controllers/user-controller').checkOTP;
+const resetPassword = require('../controllers/user-controller').resetPassword;
 
+
+
+const route = require('express');
 const routes = route.Router();
 
 routes.post('/create-user',createUser)
@@ -15,6 +20,11 @@ routes.put('/update-user:id', updateUser)
 routes.delete('/delete-user:id',deleteUser)
 
 routes.post('/login-check',loginUser)
+
+routes.post('/send-otp', sendOTP )
+routes.post('/check-otp', checkOTP )
+routes.post('/reset-password', resetPassword )
+
 
 // export default routes;
 

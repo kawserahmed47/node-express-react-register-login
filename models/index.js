@@ -42,8 +42,12 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 const user = require('./user-model.js');
+const forgetPassword = require ('./froget-password-model.js')
 
 db.users = user(sequelize, DataTypes)
+db.forgetPasswords = forgetPassword(sequelize, DataTypes)
+
+
 
 db.sequelize.sync({force:false}).then(()=>{
     console.log(' yes re-sync done !')
