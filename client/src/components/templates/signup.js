@@ -49,6 +49,8 @@ export default function Signup() {
         let value = e.target.value
         setPasswordVal(value)
     }
+
+
     let authentication = async () => {
         //  e.preventDefault();
         if(firstName && lastName && emailVal && passwordVal){
@@ -85,6 +87,9 @@ export default function Signup() {
         }
        
     }
+
+
+    
     return(
         <div>
             <div className="wrapper">

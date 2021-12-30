@@ -8,7 +8,7 @@ const sendOTP = require('../controllers/user-controller').sendOTP;
 const checkOTP = require('../controllers/user-controller').checkOTP;
 const resetPassword = require('../controllers/user-controller').resetPassword;
 
-
+const auth = require('../middlewares/auth')
 
 const route = require('express');
 const routes = route.Router();
@@ -25,6 +25,10 @@ routes.post('/send-otp', sendOTP )
 routes.post('/check-otp', checkOTP )
 routes.post('/reset-password', resetPassword )
 
+
+routes.post("/welcome", auth, (req, res) => {
+    res.status(200).send("Welcome 🙌 ");
+  });
 
 // export default routes;
 

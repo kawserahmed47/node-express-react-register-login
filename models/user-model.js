@@ -32,6 +32,11 @@ module.exports =  (sequelize, DataTypes) =>{
             allowNull :false
         },
 
+        token:{
+            type : DataTypes.STRING,
+            allowNull :true
+        },
+
         user_type:{
             type : DataTypes.INTEGER,
             allowNull :true

@@ -2,10 +2,12 @@ const express = require('express');
 const json = require('express').json;
 const urlencoded = require('express').urlencoded;
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 
 
 const app = express();
+dotenv.config();
 
 // var corOptions = {
 //     origin: 'http://localhost:8081'

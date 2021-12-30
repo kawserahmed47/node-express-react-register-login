@@ -1,5 +1,7 @@
 const db = require('../models/index.js');
 var datetime = require('node-datetime');
+const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 // create main Model
 
  const User = db.users
@@ -11,18 +13,41 @@ var datetime = require('node-datetime');
 
  const createUser = async (req, res) =>{
 
+    const salt = await bcrypt.genSalt(10);
+    // Create token
+
+
+
     let data = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         user_name: req.body.first_name,
         profile_picture: null,
         email: req.body.email,
-        password: req.body.password,
+        password: await bcrypt.hash(req.body.password, salt),
+        token: "",
         user_type: 1,
         status: 1
     }
 
-    const user = await User.create(data)
+    let user = await User.create(data);
+
+    const token = jwt.sign(
+        { 
+            user_id: user.id, 
+            email: user.email 
+        },
+        process.env.TOKEN_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+
+        // save user token
+        user.token = token;
+
+    
+
     res.status(201).send(user);
 
 }
@@ -75,12 +100,54 @@ var datetime = require('node-datetime');
     let password = req.body.password
 
 
-    let user = await User.findOne({ where: {
-        email:email,
-        password:password 
+    let user = await User.findOne({ where: { email:email }});
+
+    if(user){
+
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if(validPassword){
+
+            const token = jwt.sign(
+                { 
+                    user_id: user.id, 
+                    email: user.email 
+                },
+                process.env.TOKEN_KEY,
+                {
+                  expiresIn: "2h",
+                }
+              );
+
+
+
+            let data ={
+                message: "Login successful!",
+                token: token,
+                status: true
+            }
+            res.status(200).send(data);
+        }else{
+
+            let data ={
+                message: "Email or password does not match",
+                status: false
+            }
+            res.status(200).send(data);
+                    
+        
         }
-    });
-    res.status(200).send(user);
+
+        
+
+    }else{
+        let data ={
+            message: "Email or password does not match",
+            status: false
+        }
+        res.status(200).send(data);
+    }
+    
 
 }
 
@@ -88,9 +155,10 @@ var datetime = require('node-datetime');
 const sendOTP = async(req, res) =>{
 
     var dt = datetime.create();
+    var token = Math.floor(Math.random() * 1000000);
     let data = {
         email: req.body.email,
-        token: Math.floor(Math.random() * 10000),
+        token: token ,
         expire: dt.format('Y-m-d H:M:S')
 
     }
@@ -99,13 +167,20 @@ const sendOTP = async(req, res) =>{
 
     if(user){
 
-        const forgetPassword = await ForgetPassword.create(data);
+
+        let forgetPasswordFind = await ForgetPassword.findOne({ where: {email:email}});
+        if(forgetPasswordFind){
+            let forgetPasswordDelete = await ForgetPassword.destroy({ where: {email:email}})
+        }
+
+        let forgetPassword = await ForgetPassword.create(data);
 
         if(forgetPassword){
             let results = {
                 status : true,
                 message: 'OTP created sucessfully.',
-                email : email
+                email : email,
+                token : token
             }
             res.status(201).send(results);
         }else{
@@ -124,7 +199,7 @@ const sendOTP = async(req, res) =>{
             message: 'Email not found.',
             email : email
         }
-        res.status(404).send(results);
+        res.status(200).send(results);
     }
 
 
@@ -156,7 +231,7 @@ const checkOTP = async(req, res) =>{
             message: 'OTP authenticate failed.',
             email : email
         }
-        res.status(404).send(results);
+        res.status(200).send(results);
     }
 
 }
@@ -174,7 +249,7 @@ const resetPassword = async( req, res) =>{
             message: 'Confirm password does not match',
             email : email
         }
-        res.status(400).send(results);
+        res.status(200).send(results);
     }
 
     
@@ -207,7 +282,7 @@ const resetPassword = async( req, res) =>{
                 email : email
             }
 
-            res.status(200).send(results);
+            res.status(200).json(results);
 
 
         }else{
@@ -218,7 +293,7 @@ const resetPassword = async( req, res) =>{
                 email : email
             }
 
-            res.status(200).send(results);
+            res.status(200).json(results);
 
         }
 
@@ -229,7 +304,7 @@ const resetPassword = async( req, res) =>{
             message: 'OTP authenticate failed.',
             email : email
         }
-        res.status(404).send(results);
+        res.status(200).send(results);
     }
 
 }

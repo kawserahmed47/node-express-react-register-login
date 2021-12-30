@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-
 import axios from 'axios';
 
-export default function Signin() {
-
+export default function ResetPassword() {
     const [emailVal, setEmailVal] = useState();
     const [passwordVal, setPasswordVal] = useState();
     const [formWarning, setFormWarning] = useState();
@@ -68,8 +66,6 @@ export default function Signin() {
         }
        
     }
-
-    
     return(
         <div>
             <div className="wrapper">
@@ -121,7 +117,7 @@ export default function Signin() {
                                     </div>
                                 </div>
                                 <div className="auth-form__footer">
-                                    <a href="./forgetPassword">Forgot password?</a>
+                                    <a href="#">Forgot password?</a>
                                     <a href="./signup">Don't have an account?</a>
                                     <a href="#">Privacy Policy</a>
                                 </div>
@@ -134,7 +130,4 @@ export default function Signin() {
             
         </div>
     )
-
-
-
 }
